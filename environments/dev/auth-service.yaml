@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: auth-service
-          image: sanketdesai09/auth-service:does-not-exist
+          image: sanketdesai09/auth-service:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 4000
