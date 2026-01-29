@@ -1,3 +1,4 @@
 resources:
   - namespaces/shop-platform.yaml
+  - auth-mongo.yaml
   - auth-service.yaml
