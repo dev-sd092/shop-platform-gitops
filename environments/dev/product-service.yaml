@@ -38,8 +38,7 @@ metadata:
   name: product-service
   namespace: shop-platform
 spec:
-  type:
-    - ClusterIP
+  type: ClusterIP
   selector:
     app: product-service
   ports:
