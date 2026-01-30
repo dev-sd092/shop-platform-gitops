@@ -2,5 +2,7 @@ resources:
   - namespaces/shop-platform.yaml
   - auth-mongo.yaml
   - product-mongo.yaml
+  - cart-redis.yaml
   - auth-service.yaml
   - product-service.yaml
+  - cart-service.yaml
