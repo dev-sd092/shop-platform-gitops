@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: shop-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels: 
+        app: product-service
+    spec:
+      containers:
+        - name: product-service
+          image: sanketdesai09/product-service:latest
+          imagePullPolicy: Always
+          ports: 
+            - containerPort: 5000
+          env:
+            - name: PORT
+              value: "5000"
+            - name: MONGO_URI
+              value: "mongodb://product-db:27017/productdb"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "250m"
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-service
+  namespace: shop-platform
+spec:
+  type:
+    - ClusterIP
+  selector:
+    app: product-service
+  ports:
+    - port: 5000
+      targetPort: 5000 
