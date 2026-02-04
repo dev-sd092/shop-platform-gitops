@@ -3,6 +3,8 @@ resources:
   - auth-mongo.yaml
   - product-mongo.yaml
   - cart-redis.yaml
+  - order-mongo.yaml
   - auth-service.yaml
   - product-service.yaml
   - cart-service.yaml
+  - order-service.yaml

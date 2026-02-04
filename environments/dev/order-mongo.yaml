@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-mongo
+  namespace: shop-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-mongo
+  template:
+    metadata:
+      labels:
+        app: order-mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:4.4
+          imagePullPolicy: Always
+          port:
+            - containerPort: 27017
+          volumeMounts:
+            - name: mongo-data
+              mountPath: /data/db
+      
+      volumes:
+        - name: mongo-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-db
+  namespace: shop-platform
+spec: 
+  type: ClusterIP
+  selector:
+    app: order-mongo
+  ports:
+    - port: 27017
+      containerPort: 27017

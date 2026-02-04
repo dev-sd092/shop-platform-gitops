@@ -1,46 +1,48 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: auth-service
+  name: order-service
   namespace: shop-platform
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: auth-service
+      app: order-service
   template:
     metadata:
       labels:
-        app: auth-service
+        app: order-service
     spec:
       containers:
-        - name: auth-service
-          image: sanketdesai09/auth-service:latest
+        - name: order-service
+          image: sanketdesai09/order-service:latest
           imagePullPolicy: Always
           ports:
-            - containerPort: 4000
+            containerPort: 7000
           env:
             - name: PORT
-              value: "4000"
-            - name: MONGO_URI
-              value: "mongodb://auth-db:27017/authdb"
+              value: "7000"
+              name: MONGO_URI
+              value: "mongodb://order-db:27017/orderdb"
+              name: JWT_SECRET
+              value: "supersecretkey"
           resources:
             requests:
               cpu: "100m"
               memory: "128Mi"
-            limits: 
+            limits:
               cpu: "250m"
               memory: "256Mi"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: auth-service
+  name: order-service
   namespace: shop-platform
 spec:
   type: ClusterIP
   selector:
-    app: auth-service
+    app: order-service
   ports:
-    - port: 4000
-      targetPort: 4000
+    - port: 7000
+      targetPort: 7000
