@@ -18,13 +18,13 @@ spec:
           image: sanketdesai09/order-service:latest
           imagePullPolicy: Always
           ports:
-            containerPort: 7000
+            - containerPort: 7000
           env:
             - name: PORT
               value: "7000"
-              name: MONGO_URI
+            - name: MONGO_URI
               value: "mongodb://order-db:27017/orderdb"
-              name: JWT_SECRET
+            - name: JWT_SECRET
               value: "supersecretkey"
           resources:
             requests:
