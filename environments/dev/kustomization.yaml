@@ -8,3 +8,4 @@ resources:
   - product-service.yaml
   - cart-service.yaml
   - order-service.yaml
+  - frontend.yaml
