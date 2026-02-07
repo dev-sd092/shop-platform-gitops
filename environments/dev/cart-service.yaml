@@ -21,11 +21,20 @@ spec:
             - containerPort: 6001
           env:
             - name: PORT
-              value: "6001"
+              valueFrom:
+                configMapKeyRef:
+                  name: cart-config
+                  key: PORT
             - name: REDIS_HOST
-              value: "cart-redis"
+              valueFrom:
+                configMapKeyRef:
+                  name: cart-config
+                  key: REDIS_HOST
             - name: REDIS_PORT
-              value: "6379"
+              valueFrom:
+                configMapKeyRef:
+                  name: cart-config
+                  key: REDIS_PORT
             - name: JWT_SECRET
               valueFrom:
                 secretKeyRef:

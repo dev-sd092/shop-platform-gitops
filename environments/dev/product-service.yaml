@@ -21,9 +21,15 @@ spec:
             - containerPort: 5000
           env:
             - name: PORT
-              value: "5000"
+              valueFrom:
+                configMapKeyRef:
+                  name: product-config
+                  key: PORT
             - name: MONGO_URI
-              value: "mongodb://product-db:27017/productdb"
+              valueFrom:
+                configMapKeyRef:
+                  name: product-config
+                  key: MONGO_URI
           resources:
             requests:
               cpu: "100m"
