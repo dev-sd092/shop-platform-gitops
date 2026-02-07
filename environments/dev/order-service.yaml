@@ -25,7 +25,10 @@ spec:
             - name: MONGO_URI
               value: "mongodb://order-db:27017/orderdb"
             - name: JWT_SECRET
-              value: "supersecretkey"
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  value: JWT_SECRET
           resources:
             requests:
               cpu: "100m"

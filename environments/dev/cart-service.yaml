@@ -27,7 +27,10 @@ spec:
             - name: REDIS_PORT
               value: "6379"
             - name: JWT_SECRET
-              value: "supersecretkey"
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: JWT_SECRET
           resources:
             requests:
               cpu: "100m"

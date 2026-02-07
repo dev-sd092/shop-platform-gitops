@@ -1,5 +1,7 @@
 resources:
   - namespaces/shop-platform.yaml
+  - auth-config.yaml
+  - secrets.yaml
   - auth-mongo.yaml
   - product-mongo.yaml
   - cart-redis.yaml
@@ -9,3 +11,4 @@ resources:
   - cart-service.yaml
   - order-service.yaml
   - frontend.yaml
+  - ingress.yaml

@@ -21,9 +21,20 @@ spec:
             - containerPort: 4000
           env:
             - name: PORT
-              value: "4000"
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: PORT
             - name: MONGO_URI
-              value: "mongodb://auth-db:27017/authdb"
+              valueFrom:
+                configMapKeyRef:
+                  name: auth-config
+                  key: MONGO_URI
+            - name: JWT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: app-secrets
+                  key: JWT_SECRET
           resources:
             requests:
               cpu: "100m"
