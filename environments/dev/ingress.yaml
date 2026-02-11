@@ -5,7 +5,7 @@ metadata:
   namespace: shop-platform
 spec:
   rules:
-    - host: shop.local
+    - host: shop.local:8070
       http:
         paths:
           - path: /api/auth
