@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: product-service
-          image: sanketdesai09/product-service:3f51698
+          image: sanketdesai09/product-service:25c6374
           imagePullPolicy: Always
           ports: 
             - containerPort: 5000
