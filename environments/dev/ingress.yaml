@@ -7,7 +7,7 @@ spec:
   rules:
     - http:
         paths:
-          - path: /auth
+          - path: /api/auth
             pathType: Prefix
             backend:
               service:
@@ -15,7 +15,7 @@ spec:
                 port:
                   number: 4000
 
-          - path: /products
+          - path: /api/products
             pathType: Prefix
             backend:
               service:
@@ -23,7 +23,7 @@ spec:
                 port:
                   number: 5000
 
-          - path: /cart
+          - path: /api/cart
             pathType: Prefix
             backend:
               service:
@@ -31,7 +31,7 @@ spec:
                 port:
                   number: 6001
 
-          - path: /orders
+          - path: /api/orders
             pathType: Prefix
             backend:
               service:
