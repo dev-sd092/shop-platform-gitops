@@ -3,42 +3,51 @@ kind: Ingress
 metadata:
   name: shop-platform-ingress
   namespace: shop-platform
+  annotations:
+    # This is the magic line that strips the matched path
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Enable regex matching
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          - path: /api/auth
-            pathType: Prefix
+          # Capture group 1: (/|$)  -> matches the slash or end of line
+          # Capture group 2: (.*)   -> matches everything after (e.g., "register")
+          - path: /api/auth(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: auth-service
                 port:
                   number: 4000
 
-          - path: /api/products
-            pathType: Prefix
+          - path: /api/products(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: product-service
                 port:
                   number: 5000
 
-          - path: /api/cart
-            pathType: Prefix
+          - path: /api/cart(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: cart-service
                 port:
                   number: 6001
 
-          - path: /api/orders
-            pathType: Prefix
+          - path: /api/orders(/|$)(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: order-service
                 port:
                   number: 7000
 
+          # Frontend usually doesn't need rewrite if it serves from root,
+          # but keep it standard if needed.
           - path: /
             pathType: Prefix
             backend:
