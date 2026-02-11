@@ -5,8 +5,7 @@ metadata:
   namespace: shop-platform
 spec:
   rules:
-    - host: shop.local:8070
-      http:
+    - http:
         paths:
           - path: /api/auth
             pathType: Prefix
