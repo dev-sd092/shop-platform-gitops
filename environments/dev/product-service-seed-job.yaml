@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: product-seed-job
+  namespace: shop-platform
+spec:
+  backoffLimit: 1
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: seed
+          image: sanketdesai09/product-service:latest
+          command: ["npm", "run", "seed"]
+          env:
+            - name: MONGO_URI
+              value: mongodb://product-db:27017/productdb
