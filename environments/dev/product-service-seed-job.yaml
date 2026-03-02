@@ -1,22 +1,17 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  annotations:
-    argocd.argoproj.io/tracking-id: auth-service:batch/Job:shop-platform/product-seed-job
   name: product-seed-job
   namespace: shop-platform
 spec:
   backoffLimit: 1
   template:
     spec:
+      restartPolicy: Never
       containers:
-        - command:
-            - npm
-            - run
-            - seed
+        - name: seed
+          image: sanketdesai09/product-service:0845664
+          command: ["npm", "run", "seed"]
           env:
             - name: MONGO_URI
               value: mongodb://product-db:27017/productdb
-          image: sanketdesai09/product-service:0845664
-          name: seed
-      restartPolicy: Never
