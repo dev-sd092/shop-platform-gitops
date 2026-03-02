@@ -5,6 +5,7 @@ resources:
   - product-config.yaml
   - order-config.yaml
   - cart-config.yaml
+  - product-service-seed-job.yaml
   - auth-mongo.yaml
   - product-mongo.yaml
   - cart-redis.yaml
@@ -15,4 +16,3 @@ resources:
   - order-service.yaml
   - frontend.yaml
   - ingress.yaml
-  - product-service-seed-job.yaml
