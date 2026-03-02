@@ -17,6 +17,6 @@ spec:
           env:
             - name: MONGO_URI
               value: mongodb://product-db:27017/productdb
-          image: sanketdesai09/product-service:latest
+          image: sanketdesai09/product-service:0845664
           name: seed
       restartPolicy: Never
