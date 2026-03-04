@@ -4,6 +4,7 @@ metadata:
   name: shop-platform-ingress
   namespace: shop-platform
 spec:
+  ingressClassName: nginx
   rules:
     - http:
         paths:
