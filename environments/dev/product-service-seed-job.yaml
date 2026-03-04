@@ -12,7 +12,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: seed
-          image: sanketdesai09/product-service:0845664
+          image: sanketdesai09/product-service:30d42e2
           command: ["npm", "run", "seed"]
           env:
             - name: MONGO_URI
