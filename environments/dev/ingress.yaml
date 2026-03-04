@@ -4,16 +4,11 @@ metadata:
   name: shop-platform-ingress
   namespace: shop-platform
   annotations:
-    # This is the magic line that strips the matched path
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
-    # Enable regex matching
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          # Capture group 1: (/|$)  -> matches the slash or end of line
-          # Capture group 2: (.*)   -> matches everything after (e.g., "register")
           - path: /api/auth(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
