@@ -4,15 +4,15 @@ metadata:
   name: shop-platform-ingress
   namespace: shop-platform
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    # Magic Fix: Group 1 captures everything AFTER "/api/"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          # --- API ROUTES --- 
-          # Nginx evaluates these longer Regex rules first
-          - path: /api/auth(/|$)(.*)
+          # AUTH: /api/auth/register -> rewrites to /auth/register
+          - path: /api/(auth.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -20,7 +20,8 @@ spec:
                 port:
                   number: 4000
 
-          - path: /api/products(/|$)(.*)
+          # PRODUCT: /api/products -> rewrites to /products
+          - path: /api/(products.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -28,7 +29,17 @@ spec:
                 port:
                   number: 5000
 
-          - path: /api/cart(/|$)(.*)
+          # CATEGORIES: /api/categories -> rewrites to /categories
+          - path: /api/(categories.*)
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: product-service
+                port:
+                  number: 5000
+
+          # CART: /api/cart -> rewrites to /cart
+          - path: /api/(cart.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -36,7 +47,8 @@ spec:
                 port:
                   number: 6001
 
-          - path: /api/orders(/|$)(.*)
+          # ORDERS: /api/orders -> rewrites to /orders
+          - path: /api/(orders.*)
             pathType: ImplementationSpecific
             backend:
               service:
@@ -44,9 +56,8 @@ spec:
                 port:
                   number: 7000
 
-          # --- FRONTEND CATCH-ALL ---
-          # Evaluated last. Preserves the exact URL path for JS/CSS assets
-          - path: /()(.*)
+          # FRONTEND CATCH-ALL: Preserves exact asset paths (Group 1 is the whole path)
+          - path: /(.*)
             pathType: ImplementationSpecific
             backend:
               service:
