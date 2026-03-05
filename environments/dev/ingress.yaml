@@ -1,19 +1,18 @@
+# -----------------------------------------
+# 1. API INGRESS (WITH Rewrite Rules)
+# -----------------------------------------
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: shop-platform-ingress
+  name: api-ingress
   namespace: shop-platform
   annotations:
-    # 1. Rewrite Target: Strips the path prefix (group 1) and passes the rest (group 2)
     nginx.ingress.kubernetes.io/rewrite-target: /$2
-    # 2. Enable Regex: Required for the capture groups below to work
     nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
   rules:
     - http:
         paths:
-          # AUTH SERVICE
-          # Matches "/api/auth" followed by a slash or end-of-line
           - path: /api/auth(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -22,7 +21,6 @@ spec:
                 port:
                   number: 4000
 
-          # PRODUCT SERVICE
           - path: /api/products(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -31,7 +29,6 @@ spec:
                 port:
                   number: 5000
 
-          # CART SERVICE
           - path: /api/cart(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -40,7 +37,6 @@ spec:
                 port:
                   number: 6001
 
-          # ORDER SERVICE
           - path: /api/orders(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -49,7 +45,20 @@ spec:
                 port:
                   number: 7000
 
-          # FRONTEND (No rewrite needed, serves from root)
+---
+# -----------------------------------------
+# 2. FRONTEND INGRESS (NO Rewrite Rules)
+# -----------------------------------------
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: frontend-ingress
+  namespace: shop-platform
+  # Notice: No rewrite annotations here!
+spec:
+  rules:
+    - http:
+        paths:
           - path: /
             pathType: Prefix
             backend:
