@@ -1,10 +1,7 @@
-# -----------------------------------------
-# 1. API INGRESS (WITH Rewrite Rules)
-# -----------------------------------------
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: api-ingress
+  name: shop-platform-ingress
   namespace: shop-platform
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
@@ -13,6 +10,8 @@ spec:
   rules:
     - http:
         paths:
+          # --- API ROUTES --- 
+          # Nginx evaluates these longer Regex rules first
           - path: /api/auth(/|$)(.*)
             pathType: ImplementationSpecific
             backend:
@@ -45,22 +44,10 @@ spec:
                 port:
                   number: 7000
 
----
-# -----------------------------------------
-# 2. FRONTEND INGRESS (NO Rewrite Rules)
-# -----------------------------------------
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: frontend-ingress
-  namespace: shop-platform
-  # Notice: No rewrite annotations here!
-spec:
-  rules:
-    - http:
-        paths:
-          - path: /
-            pathType: Prefix
+          # --- FRONTEND CATCH-ALL ---
+          # Evaluated last. Preserves the exact URL path for JS/CSS assets
+          - path: /()(.*)
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: frontend
